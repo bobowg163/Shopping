@@ -13,6 +13,7 @@ room = "2.7.1"
 ksp = "2.0.21-1.0.26"
 timber = "5.0.1"
 livedateVersion = "2.9.0"
+navVersion = "2.9.0"
 
 [libraries]
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
@@ -40,6 +41,7 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 haze = { group = "dev.chrisbanes.haze", name = "haze", version.ref = "hazeVersion" }
 haze-materials = { group = "dev.chrisbanes.haze", name = "haze-materials", version.ref = "hazeVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+androidx-navigate = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navVersion" }
 
 
 [plugins]

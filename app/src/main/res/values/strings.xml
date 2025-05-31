@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">东岸超市</string>
     <string name="close">关闭</string>
+    <string name="back_button">返回</string>
+    <string name="add_photo">添加选项</string>
+    <string name="no_item_description">还没有添加数据哦！</string>
 </resources>

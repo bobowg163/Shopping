@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.haze.materials)
     // Room
     implementation(libs.bundles.room)
+    implementation(libs.androidx.navigate)
     annotationProcessor(libs.androidx.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.ksp.gradlePlugin)
