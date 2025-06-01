@@ -5,9 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import dang.zhou.cun.shoping.MyApp
 import dang.zhou.cun.shoping.ui.home.HomeDestination
 import dang.zhou.cun.shoping.ui.home.HomeScreen
+import dang.zhou.cun.shoping.ui.photo.PhotoEntryDestination
 
 /*
 * 项目名称: Shopping

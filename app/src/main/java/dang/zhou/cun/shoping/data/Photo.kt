@@ -11,11 +11,10 @@ import androidx.room.PrimaryKey
 data class Photo(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    @DrawableRes
     @ColumnInfo(name = "image_url")
     val url: Int,
-    @ColumnInfo(name = "title")
-    val title: String,
+    @ColumnInfo(name = "price")
+    val price: Double,
     @ColumnInfo(name = "date")
     val date: String
 )

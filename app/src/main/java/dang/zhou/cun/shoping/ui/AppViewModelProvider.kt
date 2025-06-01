@@ -12,6 +12,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dang.zhou.cun.shoping.PhotoApplication
@@ -38,10 +43,14 @@ import dang.zhou.cun.shoping.ui.home.HomeViewModel
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
-            HomeViewModel(PhotoApplication().container.photoRepository)
+            HomeViewModel(photoApplication().container.photoRepository)
         }
     }
 }
+
+fun CreationExtras.photoApplication(): PhotoApplication =
+    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as PhotoApplication)
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,16 +58,17 @@ fun PhotoTopAppBar(
     modifier: Modifier = Modifier,
     title: String,
     canNavigateBack: Boolean,
-    scrollBehavior: TopAppBarScrollBehavior?= null,
-    navigateUp:()-> Unit ={}
+    scrollBehavior: TopAppBarScrollBehavior? = null,
+    navigateUp: () -> Unit = {}
 ) {
-    CenterAlignedTopAppBar(
+    TopAppBar(
         modifier = modifier,
         scrollBehavior = scrollBehavior,
+        colors = TopAppBarDefaults.topAppBarColors(),
         title = {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(
                     imageVector = Icons.Outlined.Shop2,
@@ -66,14 +76,14 @@ fun PhotoTopAppBar(
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Text(
-                    text = "东岸超市购物",
+                    text = title,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         },
         navigationIcon = {
-            if (canNavigateBack){
+            if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,

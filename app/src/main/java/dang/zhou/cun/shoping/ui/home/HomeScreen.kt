@@ -71,6 +71,7 @@ import dang.zhou.cun.shoping.data.Photo
 import dang.zhou.cun.shoping.ui.AppViewModelProvider
 import dang.zhou.cun.shoping.ui.PhotoTopAppBar
 import dang.zhou.cun.shoping.ui.navigation.NavigationDestination
+import dang.zhou.cun.shoping.ui.photo.formatedPrice
 import dang.zhou.cun.shoping.ui.theme.ShoppingTheme
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
@@ -101,6 +102,7 @@ fun HomeScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             PhotoTopAppBar(
+                modifier = Modifier.padding(6.dp),
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior
@@ -152,7 +154,9 @@ fun HomeScreen(
         ImageGrid(
             photos = photos,
             onPhotoClick = navigateToPhotoUpdate,
-            modifier = modifier.fillMaxSize(),
+            modifier = modifier
+                .fillMaxSize()
+                .padding(16.dp),
             contentPaddingValues = paddingValues,
         )
     }
@@ -168,7 +172,6 @@ private fun ImageGrid(
 ) {
     val hazeState = rememberHazeState()
     var activePhotoId by rememberSaveable { mutableStateOf<Int?>(null) }
-
     if (photos.isEmpty()) {
         Text(
             text = stringResource(R.string.no_item_description),
@@ -183,12 +186,15 @@ private fun ImageGrid(
                 .hazeSource(hazeState),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(photos) { photo ->
+            items(photos, key = { it.id }) { photo ->
                 ImageItem(
                     photo,
-                    Modifier.clickable { activePhotoId = photo.id }
+                    Modifier.clickable {
+                        onPhotoClick(photo.id)
+                        activePhotoId = photo.id
+                    },
                 )
             }
         }
@@ -204,19 +210,22 @@ private fun ImageGrid(
 }
 
 @Composable
-private fun ImageItem(photo: Photo, modifier: Modifier = Modifier) {
+fun ImageItem(
+    photo: Photo,
+    modifier: Modifier = Modifier
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(photo.url),
-            contentDescription = photo.title,
+            contentDescription = photo.price.toString(),
             modifier = modifier.aspectRatio(1f)
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             modifier = Modifier.padding(horizontal = 16.dp),
-            text = photo.title,
+            text = photo.formatedPrice(),
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold
         )
@@ -308,31 +317,42 @@ private fun Scrim(onClose: () -> Unit, modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun ShopCardPreview() {
-    val state = rememberHazeState()
     val photos = listOf(
         Photo(
             1,
             R.drawable.shoptitle,
-            "ake",
+            2.00,
             "2025-05-11"
         ),
         Photo(
             2,
             R.drawable.shopcontent1,
-            "ake",
+            2.30,
             "2025-05-11"
         ),
         Photo(
             3,
             R.drawable.shopconent,
-            "ake",
+            0.56,
             "2025-05-11"
         )
     )
     ShoppingTheme {
         ImageGrid(
             photos = photos,
-            onPhotoClick = {},
+            onPhotoClick = {
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ShopCardDarkPreview() {
+    ShoppingTheme {
+        ImageGrid(
+            listOf(),
+            onPhotoClick = {}
         )
     }
 }
