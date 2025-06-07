@@ -3,11 +3,17 @@ package dang.zhou.cun.shoping.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import dang.zhou.cun.shoping.ui.home.HomeDestination
 import dang.zhou.cun.shoping.ui.home.HomeScreen
+import dang.zhou.cun.shoping.ui.photo.PhotoDetails
+import dang.zhou.cun.shoping.ui.photo.PhotoDetailsDestination
+import dang.zhou.cun.shoping.ui.photo.PhotoDetailsScreen
 import dang.zhou.cun.shoping.ui.photo.PhotoEntryDestination
+import dang.zhou.cun.shoping.ui.photo.PhotoEntryScreen
 
 /*
 * 项目名称: Shopping
@@ -26,13 +32,32 @@ fun InventoryNavHost(
         modifier = modifier,
         navController = navController,
         startDestination = HomeDestination.route
-    ){
+    ) {
         composable(route = HomeDestination.route) {
             HomeScreen(
-                navigateToPhotoEntry = {navController.navigate(PhotoEntryDestination.route)},
-                navigateToPhotoUpdate = { navController.navigate("${PhotoEntryDestination.route}/${it}")}
+                navigateToPhotoEntry = { navController.navigate(PhotoEntryDestination.route) },
+                navigateToPhotoUpdate = { navController.navigate("${PhotoEntryDestination.route}/${it}") }
             )
         }
+        composable(route = PhotoEntryDestination.route) {
+            PhotoEntryScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
+        composable(
+            route = PhotoDetailsDestination.routeWithArgs,
+            arguments = listOf(navArgument(PhotoDetailsDestination.photoIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            PhotoDetailsScreen(
+                navigateToEditPhoto = { navController.navigate("${PhotoEntryDestination.route}/$it") },
+                navigateBack = { navController.navigateUp() }
+            )
+        }
+
+
     }
 }
 
