@@ -34,15 +34,6 @@ class PhotoDetailsViewModel(
             initialValue = PhotoDetailsUiState()
         )
 
-    fun reduceQuantityByOne() {
-        viewModelScope.launch {
-            val currentPhoto = uiState.value.photoDetails.toPhoto()
-            if (currentPhoto.price > 0){
-                photoRepository.update(currentPhoto.copy(price = currentPhoto.price - 1))
-            }
-        }
-    }
-
     suspend fun deletePhoto() {
         photoRepository.delete(uiState.value.photoDetails.toPhoto())
     }

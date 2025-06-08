@@ -12,6 +12,8 @@ import dang.zhou.cun.shoping.ui.home.HomeScreen
 import dang.zhou.cun.shoping.ui.photo.PhotoDetails
 import dang.zhou.cun.shoping.ui.photo.PhotoDetailsDestination
 import dang.zhou.cun.shoping.ui.photo.PhotoDetailsScreen
+import dang.zhou.cun.shoping.ui.photo.PhotoEditDestination
+import dang.zhou.cun.shoping.ui.photo.PhotoEditScreen
 import dang.zhou.cun.shoping.ui.photo.PhotoEntryDestination
 import dang.zhou.cun.shoping.ui.photo.PhotoEntryScreen
 
@@ -29,14 +31,16 @@ fun InventoryNavHost(
     navController: NavHostController
 ) {
     NavHost(
-        modifier = modifier,
         navController = navController,
-        startDestination = HomeDestination.route
+        startDestination = HomeDestination.route,
+        modifier = modifier
     ) {
         composable(route = HomeDestination.route) {
             HomeScreen(
                 navigateToPhotoEntry = { navController.navigate(PhotoEntryDestination.route) },
-                navigateToPhotoUpdate = { navController.navigate("${PhotoDetailsDestination.route}/${it}") }
+                navigateToPhotoUpdate = {
+                    navController.navigate("${PhotoEditDestination.route}/${it}")
+                }
             )
         }
         composable(route = PhotoEntryDestination.route) {
@@ -52,12 +56,21 @@ fun InventoryNavHost(
             })
         ) {
             PhotoDetailsScreen(
-                navigateToEditPhoto = { navController.navigate("${PhotoEntryDestination.route}/$it") },
+                navigateToEditPhoto = { navController.navigate("${PhotoEditDestination.route}/$it") },
                 navigateBack = { navController.navigateUp() }
             )
         }
-
-
+        composable(
+            route = PhotoEditDestination.routeWithArgs,
+            arguments = listOf(navArgument(PhotoEditDestination.photoIdArg) {
+                type = NavType.IntType
+            })
+        ) {
+            PhotoEditScreen(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
+            )
+        }
     }
 }
 

@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DaoPhoto {
-    @Query("SELECT * FROM photo_table ORDER BY id ASC")
+    @Query("SELECT * FROM photo_table ORDER BY id DESC")
     fun getPhotos():Flow<List<Photo>>
 
     @Query("SELECT * FROM photo_table WHERE id = :id")

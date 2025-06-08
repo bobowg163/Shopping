@@ -4,11 +4,17 @@
     <string name="back_button">返回</string>
     <string name="add_photo">添加选项</string>
     <string name="no_item_description">还没有添加数据哦！</string>
-    <string name="photo_item">图标:1,2</string>
+    <string name="photo_item">图片</string>
     <string name="photo_price">还剩多少钱</string>
     <string name="photo_date">发卡时间</string>
     <string name="required_fields">*必填字段</string>
     <string name="save_photo">保存</string>
     <string name="photo_detail_title">图片详情</string>
     <string name="edit_photo_screen">编辑图片</string>
+    <string name="edit_photo_title">编辑</string>
+    <string name="delete">删除</string>
+    <string name="delete_question">你确定要删除吗？</string>
+    <string name="note">注意！！！</string>
+    <string name="no">取消</string>
+    <string name="yes">确认</string>
 </resources>
