@@ -156,7 +156,7 @@ fun PhotoInputFrom(
                 unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
                 disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             ),
-            enabled = enabled,
+            enabled = false,
             singleLine = true
         )
 
