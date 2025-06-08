@@ -11,6 +11,7 @@ import androidx.room.PrimaryKey
 data class Photo(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    @DrawableRes
     @ColumnInfo(name = "image_url")
     val url: Int,
     @ColumnInfo(name = "price")

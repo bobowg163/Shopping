@@ -24,12 +24,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import dang.zhou.cun.shoping.PhotoApplication
 import dang.zhou.cun.shoping.R
 import dang.zhou.cun.shoping.ui.home.HomeViewModel
+import dang.zhou.cun.shoping.ui.photo.PhotoDetailsViewModel
+import dang.zhou.cun.shoping.ui.photo.PhotoEditViewModel
+import dang.zhou.cun.shoping.ui.photo.PhotoEntryViewModel
 
 /*
 * 项目名称: Shopping
@@ -44,6 +48,21 @@ object AppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             HomeViewModel(photoApplication().container.photoRepository)
+        }
+        initializer {
+            PhotoEntryViewModel(photoApplication().container.photoRepository)
+        }
+        initializer {
+            PhotoDetailsViewModel(
+                this.createSavedStateHandle(),
+                photoApplication().container.photoRepository
+            )
+        }
+        initializer {
+            PhotoEditViewModel(
+                this.createSavedStateHandle(),
+                photoApplication().container.photoRepository
+            )
         }
     }
 }

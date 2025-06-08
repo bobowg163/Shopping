@@ -47,7 +47,7 @@ class PhotoEditViewModel(
 
     private fun validateInput(photoDetails: PhotoDetails = photoUiState.photoDetails): Boolean {
         return with(photoDetails) {
-            price.isNotBlank() && url > 0
+            price.isNotBlank() && date.isNotBlank()
         }
     }
 }

@@ -7,7 +7,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -74,7 +74,6 @@ import dang.zhou.cun.shoping.ui.navigation.NavigationDestination
 import dang.zhou.cun.shoping.ui.photo.formatedPrice
 import dang.zhou.cun.shoping.ui.theme.ShoppingTheme
 import dev.chrisbanes.haze.hazeSource
-import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.rememberHazeState
 import kamal.aishwarya.weather.utils.DateUtil.toFormattedDate
 
@@ -102,7 +101,7 @@ fun HomeScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             PhotoTopAppBar(
-                modifier = Modifier.padding(6.dp),
+                modifier = Modifier,
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior
@@ -156,19 +155,19 @@ fun HomeScreen(
             onPhotoClick = navigateToPhotoUpdate,
             modifier = modifier
                 .fillMaxSize()
-                .padding(16.dp),
-            contentPaddingValues = paddingValues,
+                .padding(
+                    top = paddingValues.calculateTopPadding() - 36.dp,
+                    start = 16.dp
+                ),
         )
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable
 private fun ImageGrid(
     photos: List<Photo>,
     onPhotoClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    contentPaddingValues: PaddingValues = PaddingValues(0.dp)
 ) {
     val hazeState = rememberHazeState()
     var activePhotoId by rememberSaveable { mutableStateOf<Int?>(null) }
@@ -177,7 +176,7 @@ private fun ImageGrid(
             text = stringResource(R.string.no_item_description),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(contentPaddingValues),
+            modifier = Modifier.padding(bottom = 16.dp),
         )
     } else {
         LazyVerticalGrid(
@@ -192,9 +191,9 @@ private fun ImageGrid(
                 ImageItem(
                     photo,
                     Modifier.clickable {
-                        onPhotoClick(photo.id)
                         activePhotoId = photo.id
                     },
+                    onPhotoClick = onPhotoClick
                 )
             }
         }
@@ -212,29 +211,56 @@ private fun ImageGrid(
 @Composable
 fun ImageItem(
     photo: Photo,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPhotoClick: (Int) -> Unit,
 ) {
     Column(
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             painter = painterResource(photo.url),
             contentDescription = photo.price.toString(),
-            modifier = modifier.aspectRatio(1f)
+            modifier = modifier
+                .aspectRatio(1f)
         )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp),
-            text = photo.formatedPrice(),
+            modifier = Modifier
+                .padding(bottom = 8.dp)
+                .clickable {
+                    onPhotoClick(photo.id)
+                },
+            text = buildAnnotatedString {
+                append(photo.formatedPrice())
+                withStyle(
+                    SpanStyle(
+                        color = MaterialTheme.colorScheme.surfaceDim,
+                        textDecoration = TextDecoration.LineThrough,
+                        fontSize = 16.sp
+                    )
+                ) {
+                    append(" 编辑")
+                }
+            },
             fontSize = 26.sp,
             fontWeight = FontWeight.Bold
         )
-        Text(
+        Row(
             modifier = Modifier.padding(horizontal = 16.dp),
-            text = photo.date.toFormattedDate(),
-            fontSize = 26.sp,
-            fontWeight = FontWeight.Bold
-        )
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "开卡时间:",
+                fontSize = 15.sp,
+            )
+            Text(
+                text = photo.date.toFormattedDate(),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
     }
 
 }
