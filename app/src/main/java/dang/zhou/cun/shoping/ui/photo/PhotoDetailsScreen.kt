@@ -151,7 +151,7 @@ private fun PhotoEditBody(
                 modifier = Modifier.padding(16.dp),
                 onDeleteConfirm = {
                     deleteConfirmationRequired = false
-                    onDelete()
+//                    onDelete()
                 },
                 onDeleteCancel = { deleteConfirmationRequired = false }
             )

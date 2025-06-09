@@ -9,7 +9,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dang.zhou.cun.shoping.ui.home.HomeDestination
 import dang.zhou.cun.shoping.ui.home.HomeScreen
-import dang.zhou.cun.shoping.ui.photo.PhotoDetails
 import dang.zhou.cun.shoping.ui.photo.PhotoDetailsDestination
 import dang.zhou.cun.shoping.ui.photo.PhotoDetailsScreen
 import dang.zhou.cun.shoping.ui.photo.PhotoEditDestination

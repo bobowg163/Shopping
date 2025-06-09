@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BottomAppBar
@@ -41,6 +42,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -101,7 +103,8 @@ fun HomeScreen(
             .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             PhotoTopAppBar(
-                modifier = Modifier,
+                modifier = Modifier
+                    .background(Color.Transparent),
                 title = stringResource(HomeDestination.titleRes),
                 canNavigateBack = false,
                 scrollBehavior = scrollBehavior
@@ -112,6 +115,8 @@ fun HomeScreen(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.primary
             ) {
+
+                val totalResult = homeUiState.photoList.sumOf { it.price }
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Center,
@@ -125,7 +130,7 @@ fun HomeScreen(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("2000")
+                            append("$totalResult")
                         }
                         append(" 元")
                     }
@@ -157,7 +162,8 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(
                     top = paddingValues.calculateTopPadding() - 36.dp,
-                    start = 16.dp
+                    start = 16.dp,
+                    end = 16.dp
                 ),
         )
     }
